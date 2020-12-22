@@ -34,6 +34,6 @@ var userSchema = new Schema({
   },
 })
 userSchema.plugin(uniqueValidator)
-var User =  mongoose.models['User'] || mongoose.model('User', userSchema)
+var User =   mongoose.model('User', userSchema)
 
 module.exports = User

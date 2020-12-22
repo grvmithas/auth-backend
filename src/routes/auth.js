@@ -9,7 +9,7 @@ const { check, validationResult } = require('express-validator')
 router.post('/signin', (req, res) => {
   User.findOne({ email: req.body.email }).then((user) => {
     if (!user) {
-      return  res.status(404).json({ message: 'email id not founnd' })
+      res.status(404).json({ message: 'email id not founnd' })
     } else {
       controller
         .signIn(user, req.body.password)
@@ -24,13 +24,13 @@ router.post('/signin', (req, res) => {
           }
         })
         .catch((error) => {
-          return res.status(401).json(error)
+          res.status(401).json(error)
         })
     }
+  }).catch((error)=>{
+    res.status(404).json(error)
   })
 })
-
-router.use(authMiddleware.authenticate)
 
 router.post(
   '/register',
@@ -56,6 +56,8 @@ router.post(
       })
   }
 )
+
+router.use(authMiddleware.authenticate)
 
 router.use('/:id', function (req, res, next) {
   User.findById(req.params.id, (err, data) => {
